@@ -10,7 +10,7 @@ function Navigation({ cartItemCount = 0 }) {
                 <Link to="/" className={styles.logo}>ShopCart</Link>
 
                 {/* Navigation Links */}
-                <div className={styles.navLink}>
+                <div className={styles.navLinks}>
 
                     <NavLink to="/" className={({ isActive }) => isActive ? `${styles.link} ${styles.active}` : styles.link}>
                         Home

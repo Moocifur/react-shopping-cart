@@ -1,0 +1,10 @@
+.shop {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.shop h1 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+}

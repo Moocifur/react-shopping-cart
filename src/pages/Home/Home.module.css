@@ -1,0 +1,26 @@
+
+/*  Centered container that's never wider than 800px, with centered text inside, and comfortable padding around the content */
+.home {
+    padding: 2rem;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.home h1 {
+    color: #2c3e50;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.heroSection {
+    background: #f8f9fa;
+    padding: 2rem;
+    border-radius: 8px;
+    margin-top: 2rem;
+}
+
+.heroSection h2 {
+    color: #495057;
+    margin-bottom: 0.5rem;
+}
