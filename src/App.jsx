@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useCart } from './hooks/useCart'
 import Navigation from './components/Navigation/Navigation';
 import Home from './pages/Home/Home';
 import Shop from './pages/Shop/Shop';
@@ -6,7 +7,17 @@ import Cart from './pages/Cart/Cart'
 import './App.css';
 
 function App() {
-  const cartItemCount = 0;
+
+  const {
+    cartItems,
+    cartItemCount,
+    cartTotal,
+    addToCart,
+    updateQuantity,
+    removeFromCart,
+    clearCart,
+    getItemQuantity
+  } = useCart();
   
   return (
     <Router>
@@ -20,12 +31,12 @@ function App() {
             <Route path="/" element={<Home />} />
 
             {/* Shop Page */}
-            <Route path="shop" element={<Shop />} />
+            {/* Dropping it Down as props */}
+            <Route path="/shop" element={<Shop addToCart={addToCart} getItenQuantity={getItemQuantity} />} />
 
             {/* Cart Page */}
-            <Route path="cart" element={<Cart />} />
+            <Route path="/cart" element={<Cart cartItems={cartItems} cartTotal={cartTotal} updateQuantity={updateQuantity} removeFromCart={removeFromCart} clearCart={clearCart} />} />
 
-            Cart ({cartItemCount})
           </Routes>
         </main>        
       </div>
