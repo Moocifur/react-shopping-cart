@@ -66,7 +66,7 @@ export const useCart = () => {
 
     // Get Quantity by ID
     const getItemQuantity = (productId) => {
-        const item = cartItems.find(item => isValidElement.id === productId);
+        const item = cartItems.find(item => item.id === productId);
         return item ? item.quantity : 0;
     };
 

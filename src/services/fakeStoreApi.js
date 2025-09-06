@@ -49,7 +49,7 @@ export const fakeStoreApi = {
     getProductsByCategory: async (category) => {
         try {
             // url/products/category
-            const response = await fetch(`${BASE_URL}/products/${category}:`);
+            const response = await fetch(`${BASE_URL}/products/${category}`);
 
             // If returned an Error
             if (!response.ok) {

@@ -32,7 +32,7 @@ function App() {
 
             {/* Shop Page */}
             {/* Dropping it Down as props */}
-            <Route path="/shop" element={<Shop addToCart={addToCart} getItenQuantity={getItemQuantity} />} />
+            <Route path="/shop" element={<Shop addToCart={addToCart} getItemQuantity={getItemQuantity} />} />
 
             {/* Cart Page */}
             <Route path="/cart" element={<Cart cartItems={cartItems} cartTotal={cartTotal} updateQuantity={updateQuantity} removeFromCart={removeFromCart} clearCart={clearCart} />} />
