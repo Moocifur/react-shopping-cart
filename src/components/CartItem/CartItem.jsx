@@ -31,7 +31,7 @@ function CartItem({item, updateQuantity, removeFromCart }) {
     const itemTotal = (item.price * quantity).toFixed(2);
 
     return (
-        <div classmName={styles.cartItem}>
+        <div className={styles.cartItem}>
             <div className={styles.imageContainer}>
                 <img src={item.image} alt={item.title} className={styles.image} />
             </div>
