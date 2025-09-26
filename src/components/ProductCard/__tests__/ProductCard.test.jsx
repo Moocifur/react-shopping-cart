@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import ProductCard from '../ProductCard';
-import { vi } from 'vitest';
+// import { vi } from 'vitest';
 
 // SETUP: Create fake data that all tests will use
 const mockProduct = {
@@ -85,7 +85,7 @@ describe('ProductCard', () => {
 
         // 6. TEST MINIMUM LIMIT: Try to go below 1
         await user.click(decrementBtn);
-        expect(quntityInput).toHaveValue(1); // Should stay at 1 (can't go to 0)
+        expect(quantityInput).toHaveValue(1); // Should stay at 1 (can't go to 0)
     });
 
     test('allows manual quantity input', async () => {
@@ -157,10 +157,14 @@ describe('ProductCard', () => {
         const addToCartBtn = screen.getByText('Add to Cart');
         const quantityInput = screen.getByDisplayValue('1');
 
-        // 4. USER ACTION: Click "Add to Cart"
+        // 4. USER ACTION: Change quantity to 3
+        await user.clear(quantityInput);
+        await user.type(quantityInput, '3');
+
+        // 5. USER ACTION: Click "Add to Cart"
         await user.click(addToCartBtn);
 
-        // 5. CHECK: After adding to cart, does quantity reset back to 1?
+        // 6. CHECK: After adding to cart, does quantity reset back to 1?
         //    (This is good UX - ready for user to add more if they want)
         expect(quantityInput).toHaveValue(1);
     });

@@ -5,24 +5,52 @@ function ProductCard({ product, addToCart, currentQuantity = 0 }) {
     const [quantity, setQuantity] = useState(1);
 
     const handleQuantityChange = (e) => {
-        // evaluate Left, if falsy, then 1
-        const value = parseInt(e.target.value) || 1;
-        // minimum limit, gimmie the highest, either 1 or value
-        setQuantity(Math.max(1, value));
+        const value = e.target.value;
+        
+        // Allow empty input temporarily, but ensure minimum of 1
+        if ( value === '' ) {
+            setQuantity('');
+            return;
+        };
+
+        const numericValue = parseInt(value);
+
+        // Only set to 1 if it's actually invalid, not just empty
+        if (isNaN(numericValue) || numericValue < 1) {
+            setQuantity(1);
+        } else {
+            setQuantity(numericValue);
+        }
     };
 
     const incrementQuantity = () => {
-        setQuantity(prev => prev + 1);
+        setQuantity(prev => {
+            // Handle case where prev might be empty string
+            const current = prev === '' ? 0 : prev;
+            return current + 1;
+        });
     };
 
     const decrementQuantity = () => {
-        setQuantity(prev => Math.max(1, prev - 1));
+        setQuantity(prev => {
+            // Handle case where prev might be empty string
+            const current = prev === '' ? 1 : prev;
+            return Math.max(1, current - 1);
+        });
     };
 
     const handleAddToCart = () => {
-        addToCart(product, quantity);
+        const qtyToAdd = quantity === '' || quantity < 1 ? 1 : quantity;
+        addToCart(product, qtyToAdd);
         setQuantity(1); // reset Quantity after Adding
     };
+
+    // Handle blur event - set to 1 if empty when user leave input
+    const handleBlur = () => {
+        if (quantity === '' || quantity < 1) {
+            setQuantity(1);
+        }
+    }
 
     return (
         // The Card
@@ -49,7 +77,7 @@ function ProductCard({ product, addToCart, currentQuantity = 0 }) {
                 <div className={styles.controls}>
                     <div className={styles.quantityControls}>
                         <button onClick={decrementQuantity} className={styles.quantityBtn} type="button">-</button>
-                        <input type="number" min="1" value={quantity} onChange={handleQuantityChange} className={styles.quantityInput}/>
+                        <input type="number" min="1" value={quantity} onChange={handleQuantityChange} onBlur={handleBlur} className={styles.quantityInput}/>
                         <button onClick={incrementQuantity} className={styles.quantityBtn} type="button">+</button>
                     </div>
 
