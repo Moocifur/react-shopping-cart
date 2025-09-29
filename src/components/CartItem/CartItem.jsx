@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types';
+import { memo } from 'react';
 import styles from './CartItem.module.css';
 
-function CartItem({item, updateQuantity, removeFromCart }) {
+const CartItem = memo(function CartItem({item, updateQuantity, removeFromCart }) {
     const [quantity, setQuantity] = useState(item.quantity);
 
     const handleQuantityChange = (e) => {
@@ -56,6 +58,18 @@ function CartItem({item, updateQuantity, removeFromCart }) {
             </div>
         </div>
     );
-}
+});
+
+CartItem.propTypes = {
+    item: PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        title: PropTypes.string.isRequired,
+        price: PropTypes.number.isRequired,
+        image: PropTypes.string.isRequired,
+        quantity: PropTypes.number.isRequired
+    }).isRequired,
+    updateQuantity: PropTypes.func.isRequired,
+    removeFromCart: PropTypes.func.isRequired
+};
 
 export default CartItem;

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
 export const useCart = () => {
     const [cartItems, setCartItems] = useState([]);
@@ -9,8 +9,9 @@ export const useCart = () => {
     // Total Price
     const cartTotal = cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
 
+    // ===== WRAP FUNCTIONS WITH useCallback =====
     // Add to Cart (if someone doesn't specify a quantity, assume they want 1 item)
-    const addToCart = (product, quantity = 1) => {
+    const addToCart = useCallback((product, quantity = 1) => {
         setCartItems(prevItems => {
             // Check if item already exists in cart
             const existingItem = prevItems.find(item => item.id === product.id);
@@ -27,10 +28,10 @@ export const useCart = () => {
                 return [...prevItems, {...product, quantity}];
             }
         });
-    };
+    }, []);
 
     // change/edit quantity
-    const updateQuantity = (productId, newQuantity) => {
+    const updateQuantity = useCallback((productId, newQuantity) => {
         
         // If number is 0 or less, remove the item
         if (newQuantity <= 0) {
@@ -49,26 +50,26 @@ export const useCart = () => {
                 : item
             )
         );
-    };
+    }, []);
 
     // Remove item from cart
-    const removeFromCart = (productId) => {
+    const removeFromCart = useCallback((productId) => {
         setCartItems(prevItems =>
             // If not this ID, add to new array
             prevItems.filter(item => item.id !== productId)
         );
-    };
+    }, []);
 
     // Clear Cart
-    const clearCart= () => {
+    const clearCart = useCallback(() => {
         setCartItems([]);
-    };
+    }, []);
 
     // Get Quantity by ID
-    const getItemQuantity = (productId) => {
+    const getItemQuantity = useCallback((productId) => {
         const item = cartItems.find(item => item.id === productId);
         return item ? item.quantity : 0;
-    };
+    }, []);
 
     return {
         cartItems,

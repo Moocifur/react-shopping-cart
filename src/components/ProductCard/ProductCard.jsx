@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types';
+import { memo } from 'react';
 import styles from './ProductCard.module.css';
 
-function ProductCard({ product, addToCart, currentQuantity = 0 }) {
+const ProductCard = memo(function ProductCard({ product, addToCart, currentQuantity = 0 }) {
     const [quantity, setQuantity] = useState(1);
 
     const handleQuantityChange = (e) => {
@@ -87,6 +89,20 @@ function ProductCard({ product, addToCart, currentQuantity = 0 }) {
             </div>
         </div>
     )
-}
+});
+
+// Define what types each prop should be
+ProductCard.propTypes = {
+    product: PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        title: PropTypes.string.isRequired,
+        price: PropTypes.number.isReqired,
+        image: PropTypes.string.isRequired,
+        description: PropTypes.string,
+        category: PropTypes.string
+    }).isRequired,
+    addToCart: PropTypes.func.isRequired,
+    currentQuantity: PropTypes.number
+};
 
 export default ProductCard;
