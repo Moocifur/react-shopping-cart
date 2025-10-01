@@ -96,7 +96,7 @@ ProductCard.propTypes = {
     product: PropTypes.shape({
         id: PropTypes.number.isRequired,
         title: PropTypes.string.isRequired,
-        price: PropTypes.number.isReqired,
+        price: PropTypes.number.isRequired,
         image: PropTypes.string.isRequired,
         description: PropTypes.string,
         category: PropTypes.string
