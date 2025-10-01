@@ -9,67 +9,79 @@ export const useCart = () => {
     // Total Price
     const cartTotal = cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
 
-    // ===== WRAP FUNCTIONS WITH useCallback =====
-    // Add to Cart (if someone doesn't specify a quantity, assume they want 1 item)
+    // ===== STRATEGY: Use functional setState to avoid dependencies =====
+    
+    // Add to Cart
     const addToCart = useCallback((product, quantity = 1) => {
         setCartItems(prevItems => {
-            // Check if item already exists in cart
+            // EXPLANATION: Using prevItems => ... means we don't need cartItems in dependencies
+            // We're working with the CURRENT state React gives us, not stale state
+            
             const existingItem = prevItems.find(item => item.id === product.id);
 
-            //If something found, do this
             if (existingItem) {
+                // Item exists: update its quantity
                 return prevItems.map(item =>
                     item.id === product.id
-                    ? { ...item, quantity: item.quantity + quantity }
-                    : item
+                        ? { ...item, quantity: item.quantity + quantity }
+                        : item
                 );
-                // If not, this.
             } else {
-                return [...prevItems, {...product, quantity}];
+                // Item doesn't exist: add it
+                return [...prevItems, { ...product, quantity }];
             }
         });
-    }, []);
+    }, []); 
+    // EXPLANATION: Empty array because we don't reference any external variables
+    // Everything we need (product, quantity) comes from parameters
+    // cartItems is accessed via prevItems, not directly
 
-    // change/edit quantity
+    // Update quantity
     const updateQuantity = useCallback((productId, newQuantity) => {
-        
-        // If number is 0 or less, remove the item
-        if (newQuantity <= 0) {
-            removeFromCart(productId);
-            return;
-        }
+        setCartItems(prevItems => {
+            // EXPLANATION: Handle removal case INSIDE setState
+            // This way we don't need to call removeFromCart (no dependency!)
+            
+            if (newQuantity <= 0) {
+                // Remove the item by filtering it out
+                return prevItems.filter(item => item.id !== productId);
+            }
 
-        setCartItems(prevItems =>
-            prevItems.map(item =>
-
-                // Check if True
+            // Update the quantity
+            return prevItems.map(item =>
                 item.id === productId
-                // If true
-                ? { ...item, quantity: newQuantity }
-                // If False
-                : item
-            )
-        );
+                    ? { ...item, quantity: newQuantity }
+                    : item
+            );
+        });
     }, []);
+    // EXPLANATION: Empty array! We eliminated the dependency on removeFromCart
+    // by handling the removal logic inline
 
     // Remove item from cart
     const removeFromCart = useCallback((productId) => {
         setCartItems(prevItems =>
-            // If not this ID, add to new array
             prevItems.filter(item => item.id !== productId)
         );
     }, []);
+    // EXPLANATION: Empty array because we use prevItems, not cartItems directly
 
     // Clear Cart
     const clearCart = useCallback(() => {
         setCartItems([]);
     }, []);
+    // EXPLANATION: Empty array because we're just setting to a new empty array
+    // No dependencies needed
 
     // Get Quantity by ID
     const getItemQuantity = useCallback((productId) => {
         const item = cartItems.find(item => item.id === productId);
         return item ? item.quantity : 0;
-    }, []);
+    }, [cartItems]);
+    // EXPLANATION: MUST include cartItems because we read from it directly
+    // We can't use prevItems pattern here because we're not calling setState
+    // This function will be recreated whenever cartItems changes
+    // That's okay - it's a quick lookup function
 
     return {
         cartItems,
@@ -81,4 +93,4 @@ export const useCart = () => {
         clearCart,
         getItemQuantity
     };
-};   
+};
