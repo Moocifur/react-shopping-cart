@@ -1,8 +1,4 @@
-.errorBoundry {
-    text-align: center;
-    padding: 4rem 2rem;
-
-}.errorBoundary {
+.errorBoundary {
   text-align: center;
   padding: 4rem 2rem;
   background: #fdf2f2;

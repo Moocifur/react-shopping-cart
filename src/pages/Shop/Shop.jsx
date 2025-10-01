@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { fakeStoreApi } from '../../services/fakeStoreApi';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import styles from './Shop.module.css';
+import PropTypes from 'prop-types';
 
 function Shop({ addToCart, getItemQuantity }) {
   const [products, setProducts] = useState([]);
@@ -58,5 +59,10 @@ function Shop({ addToCart, getItemQuantity }) {
     </div>
   );
 }
+
+Shop.propTypes = {
+    addToCart: PropTypes.func.isRequired,
+    getItemQuantity: PropTypes.func.isRequired
+};
 
 export default Shop;

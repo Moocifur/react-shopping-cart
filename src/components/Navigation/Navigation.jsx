@@ -1,5 +1,6 @@
 import { Link, NavLink } from 'react-router-dom';
 import styles from './Navigation.module.css';
+import PropTypes from 'prop-types'; 
 
 function Navigation({ cartItemCount = 0 }) {
     return (
@@ -29,5 +30,9 @@ function Navigation({ cartItemCount = 0 }) {
         </nav>
     );
 }
+
+Navigation.propTypes = {
+    cartItemCount: PropTypes.number
+};
 
 export default Navigation;

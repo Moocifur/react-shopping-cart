@@ -1,5 +1,6 @@
 import CartItem from '../../components/CartItem/CartItem';
 import styles from './Cart.module.css';
+import PropTypes from 'prop-types';
 
 function Cart({ cartItems, cartTotal, updateQuantity, removeFromCart, clearCart }) {
     // to get total item quantity
@@ -101,5 +102,21 @@ function Cart({ cartItems, cartTotal, updateQuantity, removeFromCart, clearCart 
     )
     
 }
+
+Cart.propTypes = {
+    cartItems: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.number.isRequired,
+            title: PropTypes.string.isRequired,
+            price: PropTypes.number.isRequired,
+            image: PropTypes.string.isRequired,
+            quantity: PropTypes.number.isRequired
+        })
+    ).isRequired,
+    cartTotal: PropTypes.number.isRequired,
+    updateQuantity: PropTypes.func.isRequired,
+    removeFromCart: PropTypes.func.isRequired,
+    clearCart: PropTypes.func.isRequired
+};
 
 export default Cart;
