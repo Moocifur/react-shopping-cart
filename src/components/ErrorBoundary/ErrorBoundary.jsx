@@ -19,7 +19,7 @@ class ErrorBoundary extends Component {
     render() {
         if (this.state.hasError) {
             return (
-                <div className={styles.errorBoundry}>
+                <div className={styles.errorBoundary}>
                     <h2>Oops! Something went wrong</h2>
                     <p>We're sorry, but something unexpected happened.</p>
                     <button
